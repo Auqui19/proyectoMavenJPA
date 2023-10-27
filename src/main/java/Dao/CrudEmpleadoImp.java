@@ -33,20 +33,35 @@ public class CrudEmpleadoImp implements Iempleadoable{
 
 	@Override
 	public void EliminarEmpleado(TblEmpleado tblemp) {
-		// TODO Auto-generated method stub
-		
+		EntityManagerFactory conex=Persistence.createEntityManagerFactory("proyectoLPIISabado");
+		EntityManager emanager=conex.createEntityManager();
+		emanager.getTransaction().begin();
+		TblEmpleado elim = emanager.merge(tblemp);
+		emanager.remove(elim);
+		emanager.getTransaction().commit();
+		emanager.close();
 	}
 
 	@Override
 	public List<TblEmpleado> ListadoEmpleado() {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManagerFactory conex=Persistence.createEntityManagerFactory("proyectoLPIISabado");
+		EntityManager emanager=conex.createEntityManager();
+		emanager.getTransaction().begin();
+		List<TblEmpleado> listado = emanager.createQuery("select e from TblEmpleado e",TblEmpleado.class).getResultList();
+		emanager.getTransaction().commit();
+		emanager.close();
+		return listado;
 	}
 
 	@Override
 	public TblEmpleado BuscarEmpleadoCodigo(TblEmpleado tblemp) {
-		// TODO Auto-generated method stub
-		return null;
+		EntityManagerFactory conex=Persistence.createEntityManagerFactory("proyectoLPIISabado");
+		EntityManager emanager=conex.createEntityManager();
+		emanager.getTransaction().begin();
+		TblEmpleado buscar = emanager.find(TblEmpleado.class, tblemp.getIdempleado());
+		emanager.getTransaction().commit();
+		emanager.clear();
+		return buscar;
 	}
 
 }
